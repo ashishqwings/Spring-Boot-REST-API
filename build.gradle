@@ -17,10 +17,25 @@ repositories {
 	mavenCentral()
 }
 
+configurations {
+    localH2Implementation.extendsFrom implementation
+    localH2RuntimeOnly.extendsFrom runtimeOnly
+}
+
+sourceSets {
+    localH2 {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.data:spring-data-jdbc'
+	localH2RuntimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
